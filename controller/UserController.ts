@@ -28,7 +28,7 @@ export const registerUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     return res
       .status(STATUSCODE.BAD)
-      .json({ message: "Error creating user", data: error.message });
+      .json({ message: "Error creating user", data: error });
   }
 };
 

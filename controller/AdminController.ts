@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import cloudinary from "../utils/cloudinary";
-import AdminModel from "../model/AdminModel";
+import AdminModel, { adminModel } from "../model/AdminModel";
 import { STATUSCODE } from "../error/ErrorNotifier";
 
 export const registerAdmin = async (req: any, res: Response) => {
@@ -87,5 +87,20 @@ export const viewAdmin = async (req: Request, res: Response) => {
       .json({ message: "view Admin", data: admin });
   } catch (error) {
     return res.status(STATUSCODE.BAD).json({ message: "Error" });
+  }
+};
+
+export const deleteAdmin = async (req: Request, res: Response) => {
+  try {
+    const { adminID } = req.params;
+    const admin = await AdminModel.findByIdAndDelete(adminID);
+
+    return res
+      .status(STATUSCODE.OK)
+      .json({ message: "successfully deleted admin", data: admin });
+  } catch (error: any) {
+    return res
+      .status(STATUSCODE.BAD)
+      .json({ message: "Error deleting user", data: error.message });
   }
 };

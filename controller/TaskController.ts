@@ -55,18 +55,33 @@ export const viewOneTask = async (req: Request, res: Response) => {
   }
 };
 
-// export const viewTask = async (req: Request, res: Response) => {
-//   try {
-//     const tasked = await TaskModel.find();
+export const viewTask = async (req: Request, res: Response) => {
+  try {
+    const tasked = await TaskModel.find();
 
-//     return res.status(STATUSCODE.OK).json({
-//       message: "view users task",
-//       data: tasked,
-//     });
-//   } catch (error: any) {
-//     return res.status(STATUSCODE.BAD).json({
-//       message: "error occured",
-//       data: error.message,
-//     });
-//   }
-// };
+    return res.status(STATUSCODE.OK).json({
+      message: "view users task",
+      data: tasked,
+    });
+  } catch (error: any) {
+    return res.status(STATUSCODE.BAD).json({
+      message: "error occured",
+      data: error.message,
+    });
+  }
+};
+
+export const deleteTask = async (req: Request, res: Response) => {
+  try {
+    const { taskID } = req.params;
+    const task = await TaskModel.findByIdAndDelete(taskID);
+
+    return res
+      .status(STATUSCODE.OK)
+      .json({ message: "successfully deleted task", data: task });
+  } catch (error: any) {
+    return res
+      .status(STATUSCODE.BAD)
+      .json({ message: "Error deleting user", data: error.message });
+  }
+};
